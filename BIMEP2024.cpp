@@ -37,6 +37,7 @@ enum class PointID {
 struct Point {
     PointID     id;
     std::string name;
+    int         multi;
 };
 
 std::ostream& operator<<(std::ostream& os, const Point& point)
@@ -46,25 +47,25 @@ std::ostream& operator<<(std::ostream& os, const Point& point)
 }
 
 std::vector<Point> points = {
-    { PointID::ID_MALA_SUBOTICA,     "Mala Subotica" },     //!< 1
-    { PointID::ID_DONJI_KRALJEVEC,   "Donji Kraljevec" },   //!< 2
-    { PointID::ID_GORICAN,           "Gorican" },           //!< 3
-    { PointID::ID_KOTORIBA,          "Kotoriba" },          //!< 4
-    { PointID::ID_DONJA_DUBRAVA,     "Donja Dubrava" },     //!< 5
-    { PointID::ID_DONJI_VIDOVEC,     "Donji Vidovec" },     //!< 6
-    { PointID::ID_SVETA_MARIJA,      "Sveta Marija" },      //!< 7
-    { PointID::ID_PRELOG,            "Prelog" },            //!< 8
-    { PointID::ID_OREHOVICA,         "Orehovica" },         //!< 9
-    { PointID::ID_PUSCINE,           "Puscine" },           //!< 10
-    { PointID::ID_MACINEC,           "Macinec" },           //!< 11
-    { PointID::ID_GORNJI_MIHALJEVEC, "Gornji Mihaljevec" }, //!< 12
-    { PointID::ID_STRIGOVA,          "Strigova" },          //!< 13
-    { PointID::ID_SV_MARTIN_NA_MURI, "Sv Martin na Muri" }, //!< 14
-    { PointID::ID_MURSKO_SREDISCE,   "Mursko Sredisce" },   //!< 15
-    { PointID::ID_PODTUREN,          "Podturen" },          //!< 16
-    { PointID::ID_DOMASINEC,         "Domasinec" },         //!< 17
-    { PointID::ID_CAKOVEC,           "Cakovec" },           //!< 18
-    { PointID::ID_LOPATINEC,         "Lopatinec" }          //!< 19
+    { PointID::ID_MALA_SUBOTICA,     "Mala Subotica",       2 }, //!< 1
+    { PointID::ID_DONJI_KRALJEVEC,   "Donji Kraljevec",     2 }, //!< 2
+    { PointID::ID_GORICAN,           "Gorican",             1 }, //!< 3
+    { PointID::ID_KOTORIBA,          "Kotoriba",            1 }, //!< 4
+    { PointID::ID_DONJA_DUBRAVA,     "Donja Dubrava",       2 }, //!< 5
+    { PointID::ID_DONJI_VIDOVEC,     "Donji Vidovec",       2 }, //!< 6
+    { PointID::ID_SVETA_MARIJA,      "Sveta Marija",        1 }, //!< 7
+    { PointID::ID_PRELOG,            "Prelog",              2 }, //!< 8
+    { PointID::ID_OREHOVICA,         "Orehovica",           2 }, //!< 9
+    { PointID::ID_PUSCINE,           "Puscine",             1 }, //!< 10
+    { PointID::ID_MACINEC,           "Macinec",             1 }, //!< 11
+    { PointID::ID_GORNJI_MIHALJEVEC, "Gornji Mihaljevec",   1 }, //!< 12
+    { PointID::ID_STRIGOVA,          "Strigova",            1 }, //!< 13
+    { PointID::ID_SV_MARTIN_NA_MURI, "Sv Martin na Muri",   1 }, //!< 14
+    { PointID::ID_MURSKO_SREDISCE,   "Mursko Sredisce",     1 }, //!< 15
+    { PointID::ID_PODTUREN,          "Podturen",            1 }, //!< 16
+    { PointID::ID_DOMASINEC,         "Domasinec",           2 }, //!< 17
+    { PointID::ID_CAKOVEC,           "Cakovec",             2 }, //!< 18
+    { PointID::ID_LOPATINEC,         "Lopatinec",           2 }  //!< 19
 };
 
 Point& getPoint(const PointID id) {
@@ -305,7 +306,7 @@ std::ostream& operator<<(std::ostream& os, const Candidates& candidates)
     return os;
 }
 
-void findCandidateRecursive(Candidates& candidates, std::function<bool(const Candidates& candidates, const Candidate& candidate)> filter, Candidate candidate)
+void findCandidateRecursive(Candidates& candidates, std::function<bool(const Candidates&, const Candidate&)> filter, Candidate candidate)
 {
     const Link lastLink = candidate.back();
     std::vector<Link> links = getLinks(lastLink.to);
@@ -326,7 +327,7 @@ void findCandidateRecursive(Candidates& candidates, std::function<bool(const Can
 
 }
 
-Candidates findCandidates(std::function<bool(const Candidates& candidates, const Candidate& candidate)> filter)
+Candidates findCandidates(std::function<bool(const Candidates&, const Candidate&)> filter = [](const Candidates&, const Candidate&) -> bool { return true; })
 {
     Candidates candidates;
     for (const Point& point : points) {
@@ -348,8 +349,8 @@ int main()
                candidate.isEndingAt({ PointID::ID_GORNJI_MIHALJEVEC, PointID::ID_MACINEC, PointID::ID_LOPATINEC, PointID::ID_CAKOVEC, PointID::ID_OREHOVICA });
     };
 
-    Candidates candidates = findCandidates(condition);
+    Candidates candidates = findCandidates(/* condition */);
 
     std::cout << "We have " << candidates.size() << " candidates." << std::endl;
-    std::cout << candidates;
+    std::cout << candidates.first();
 }
