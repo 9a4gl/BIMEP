@@ -374,7 +374,15 @@ int main()
             candidate.isEndingAt({ PointID::ID_GORICAN, PointID::ID_SVETA_MARIJA, PointID::ID_PRELOG, PointID::ID_DONJI_KRALJEVEC });
         };
 
-    Candidates candidates = findCandidates(/* condition */);
+    auto condition3 = [](const Candidates& candidates, const Candidate& candidate) -> bool {
+        return candidate.isStartingFrom({ PointID::ID_LOPATINEC }) &&
+            candidate.isEndingAt({ 
+                PointID::ID_OREHOVICA, PointID::ID_PUSCINE, PointID::ID_GORNJI_MIHALJEVEC, 
+                PointID::ID_MACINEC, PointID::ID_PRELOG, PointID::ID_MALA_SUBOTICA,
+                PointID::ID_CAKOVEC, PointID::ID_SVETA_MARIJA, PointID::ID_DONJI_KRALJEVEC });
+        };
+
+    Candidates candidates = findCandidates(condition3);
 
     std::cout << "We have " << candidates.size() << " candidates." << std::endl;
     std::cout << candidates.first(10);
