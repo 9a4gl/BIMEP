@@ -47,15 +47,15 @@ std::ostream& operator<<(std::ostream& os, const Point& point)
 }
 
 std::vector<Point> points = {
-    { PointID::ID_MALA_SUBOTICA,     "Mala Subotica",       2 }, //!< 1
+    { PointID::ID_MALA_SUBOTICA,     "Mala Subotica",       1 }, //!< 1
     { PointID::ID_DONJI_KRALJEVEC,   "Donji Kraljevec",     2 }, //!< 2
     { PointID::ID_GORICAN,           "Gorican",             1 }, //!< 3
     { PointID::ID_KOTORIBA,          "Kotoriba",            1 }, //!< 4
-    { PointID::ID_DONJA_DUBRAVA,     "Donja Dubrava",       2 }, //!< 5
-    { PointID::ID_DONJI_VIDOVEC,     "Donji Vidovec",       2 }, //!< 6
-    { PointID::ID_SVETA_MARIJA,      "Sveta Marija",        1 }, //!< 7
-    { PointID::ID_PRELOG,            "Prelog",              2 }, //!< 8
-    { PointID::ID_OREHOVICA,         "Orehovica",           2 }, //!< 9
+    { PointID::ID_DONJA_DUBRAVA,     "Donja Dubrava",       1 }, //!< 5
+    { PointID::ID_DONJI_VIDOVEC,     "Donji Vidovec",       1 }, //!< 6
+    { PointID::ID_SVETA_MARIJA,      "Sveta Marija",        2 }, //!< 7
+    { PointID::ID_PRELOG,            "Prelog",              1 }, //!< 8
+    { PointID::ID_OREHOVICA,         "Orehovica",           1 }, //!< 9
     { PointID::ID_PUSCINE,           "Puscine",             1 }, //!< 10
     { PointID::ID_MACINEC,           "Macinec",             1 }, //!< 11
     { PointID::ID_GORNJI_MIHALJEVEC, "Gornji Mihaljevec",   1 }, //!< 12
@@ -63,9 +63,9 @@ std::vector<Point> points = {
     { PointID::ID_SV_MARTIN_NA_MURI, "Sv Martin na Muri",   1 }, //!< 14
     { PointID::ID_MURSKO_SREDISCE,   "Mursko Sredisce",     1 }, //!< 15
     { PointID::ID_PODTUREN,          "Podturen",            1 }, //!< 16
-    { PointID::ID_DOMASINEC,         "Domasinec",           2 }, //!< 17
-    { PointID::ID_CAKOVEC,           "Cakovec",             2 }, //!< 18
-    { PointID::ID_LOPATINEC,         "Lopatinec",           2 }  //!< 19
+    { PointID::ID_DOMASINEC,         "Domasinec",           1 }, //!< 17
+    { PointID::ID_CAKOVEC,           "Cakovec",             1 }, //!< 18
+    { PointID::ID_LOPATINEC,         "Lopatinec",           1 }  //!< 19
 };
 
 Point& getPoint(const PointID id) {
@@ -122,7 +122,8 @@ std::vector<Link> links = {
     { PointID::ID_PODTUREN, PointID::ID_CAKOVEC, 13.0 },
     { PointID::ID_DOMASINEC, PointID::ID_CAKOVEC, 15.0 },
     { PointID::ID_DOMASINEC, PointID::ID_MALA_SUBOTICA, 9.5 },
-    { PointID::ID_CAKOVEC, PointID::ID_LOPATINEC, 8.0 }
+    { PointID::ID_CAKOVEC, PointID::ID_LOPATINEC, 8.0 },
+    { PointID::ID_GORICAN, PointID::ID_SVETA_MARIJA, 11.7}
 };
 
 bool hasLinkFrom(const std::vector<Link>& data, const PointID from) {
@@ -135,6 +136,26 @@ bool hasLinkTo(const std::vector<Link>& data, const PointID to) {
 
 bool hasLinkWith(const std::vector<Link>& data, const PointID id) {
     return std::find_if(data.begin(), data.end(), [&](const Link& link) -> bool { return link.from == id || link.to == id; }) != data.end();
+}
+
+bool isLinkAllowed(const std::vector<Link>& data, const PointID id) {
+    std::vector<PointID> linkPoints;
+    for (auto it = data.begin(); it != data.end(); ++it) {
+        linkPoints.emplace_back(it->from);
+    }
+    linkPoints.emplace_back(data.rbegin()->to);
+    const Point& point = getPoint(id);
+    return std::count(linkPoints.begin(), linkPoints.end(), point.id) < point.multi;
+}
+
+size_t getLinkUniqueIdsCount(const std::vector<Link>& data) 
+{
+    std::set<PointID> linkPoints;
+    for (auto it = data.begin(); it != data.end(); ++it) {
+        linkPoints.insert(it->from);
+    }
+    linkPoints.insert(data.rbegin()->to);
+    return linkPoints.size();
 }
 
 std::vector<Link> getLinks(const PointID point)
@@ -182,11 +203,11 @@ public:
     {
         return rbegin()->to;
     }
-    bool isStartingFrom(std::vector<PointID> startingPoints) const
+    bool isStartingFrom(const std::vector<PointID>& startingPoints) const
     {
         return std::find(startingPoints.begin(), startingPoints.end(), getStartPointID()) != startingPoints.end();
     }
-    bool isEndingAt(std::vector<PointID> endingPoints) const
+    bool isEndingAt(const std::vector<PointID>& endingPoints) const
     {
         return std::find(endingPoints.begin(), endingPoints.end(), getEndPointID()) != endingPoints.end();
     }
@@ -237,9 +258,7 @@ public:
     void addCandidate(const Candidate& candidate) 
     {
         candidate.generateSignature();
-        // if (!hasCandidateWithSignature(candidate.reversed().generateSignature().signature)) {
         push_back(candidate);
-        // }
     }
     void sort()
     {
@@ -249,7 +268,7 @@ public:
     {
         return std::find_if(begin(), end(), [&](const Candidate& candidate) -> bool { return candidate.signature == signature; }) != end();
     }
-    Candidates getStartingFrom(std::vector<PointID> startingPoints) const 
+    Candidates getStartingFrom(const std::vector<PointID>& startingPoints) const 
     {
         Candidates result;
         for (const Candidate& candidate : *this) {
@@ -260,7 +279,7 @@ public:
         result.sort();
         return result;
     }
-    Candidates getEndingAt(std::vector<PointID> endingPoints) const 
+    Candidates getEndingAt(const std::vector<PointID>& endingPoints) const 
     {
         Candidates result;
         for (const Candidate& candidate : *this) {
@@ -311,12 +330,13 @@ void findCandidateRecursive(Candidates& candidates, std::function<bool(const Can
     const Link lastLink = candidate.back();
     std::vector<Link> links = getLinks(lastLink.to);
     for (const Link& link : links) {
-        if (!hasLinkWith(candidate, link.to)) {
+        if (isLinkAllowed(candidate, link.to)) {
             assert(lastLink.to == link.from);
             Candidate candidateBranch = candidate;
             candidateBranch.push_back(link);
-            if (candidateBranch.size() == (points.size() - 1)) {
-                if (filter(candidates, candidate)) {
+            if (getLinkUniqueIdsCount(candidateBranch) == points.size()) {
+                candidateBranch.generateSignature();
+                if (filter(candidates, candidateBranch)) {
                     candidates.addCandidate(candidateBranch);
                 }
                 continue;
@@ -349,8 +369,13 @@ int main()
                candidate.isEndingAt({ PointID::ID_GORNJI_MIHALJEVEC, PointID::ID_MACINEC, PointID::ID_LOPATINEC, PointID::ID_CAKOVEC, PointID::ID_OREHOVICA });
     };
 
+    auto condition2 = [](const Candidates& candidates, const Candidate& candidate) -> bool {
+        return candidate.isStartingFrom({ PointID::ID_KOTORIBA }) &&
+            candidate.isEndingAt({ PointID::ID_GORICAN, PointID::ID_SVETA_MARIJA, PointID::ID_PRELOG, PointID::ID_DONJI_KRALJEVEC });
+        };
+
     Candidates candidates = findCandidates(/* condition */);
 
     std::cout << "We have " << candidates.size() << " candidates." << std::endl;
-    std::cout << candidates.first();
+    std::cout << candidates.first(10);
 }
