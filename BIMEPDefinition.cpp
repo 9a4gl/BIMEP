@@ -29,6 +29,27 @@ BIMEPDefinition::BIMEPDefinition()
         { PointID::ID_CAKOVEC,           "Cakovec",             1 }, //!< 18
         { PointID::ID_LOPATINEC,         "Lopatinec",           1 }  //!< 19
     };
+    m_points_2025 = {
+        { PointID::ID_DONJI_KRALJEVEC,   "Donji Kraljevec",     2 }, //!< 1
+        { PointID::ID_KOTORIBA,          "Kotoriba",            1 }, //!< 2
+        { PointID::ID_DONJA_DUBRAVA,     "Donja Dubrava",       1 }, //!< 3
+        { PointID::ID_SVETA_MARIJA,      "Sveta Marija",        2 }, //!< 4
+        { PointID::ID_PRELOG,            "Prelog",              1 }, //!< 5
+        { PointID::ID_OREHOVICA,         "Orehovica",           1 }, //!< 6
+        { PointID::ID_PUSCINE,           "Puscine",             1 }, //!< 7
+        { PointID::ID_MACINEC,           "Macinec",             1 }, //!< 8
+        { PointID::ID_GORNJI_MIHALJEVEC, "Gornji Mihaljevec",   1 }, //!< 9
+        { PointID::ID_STRIGOVA,          "Strigova",            1 }, //!< 10
+        { PointID::ID_SV_MARTIN_NA_MURI, "Sv Martin na Muri",   1 }, //!< 11
+        { PointID::ID_MURSKO_SREDISCE,   "Mursko Sredisce",     1 }, //!< 12
+        { PointID::ID_PODTUREN,          "Podturen",            1 }, //!< 13
+        { PointID::ID_DOMASINEC,         "Domasinec",           1 }, //!< 14
+        { PointID::ID_CAKOVEC,           "Cakovec",             1 }, //!< 15
+        { PointID::ID_LOPATINEC,         "Lopatinec",           1 }  //!< 16
+        // { PointID::ID_MALA_SUBOTICA,     "Mala Subotica",       1 }, //!< 1
+        // { PointID::ID_GORICAN,           "Gorican",             1 }, //!< 3
+        // { PointID::ID_DONJI_VIDOVEC,     "Donji Vidovec",       1 }, //!< 6
+    };
 
     m_links = {
         { PointID::ID_MALA_SUBOTICA, PointID::ID_OREHOVICA, 6.0 },

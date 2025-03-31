@@ -5,7 +5,7 @@
 
 int main()
 {
-    BIMEPDefinition::create(2024);
+    BIMEPDefinition::create(2025);
 
     auto condition = [](const BIMEPCandidates& candidates, const BIMEPCandidate& candidate) -> bool {
         return candidate.isStartingFrom({ PointID::ID_PUSCINE }) &&
