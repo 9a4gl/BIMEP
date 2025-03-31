@@ -43,11 +43,8 @@ struct Link {
     double  distance;
 };
 
-extern std::vector<Point> points; // TIHOTODO
-extern std::vector<Link> links; // TIHOTODO
-
 std::ostream& operator<<(std::ostream& os, const Point& point);
-Point& getPoint(const PointID id);
+const Point& getPoint(const PointID id);
 std::ostream& operator<<(std::ostream& os, const Link& link);
 bool hasLinkFrom(const std::vector<Link>& data, const PointID from);
 bool hasLinkTo(const std::vector<Link>& data, const PointID to);

@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(PROJECT_SOURCES
         BIMEPDefinition.cpp BIMEPDefinition.h
         BIMEPCommon.cpp BIMEPCommon.h
-        BIMERCandidate.cpp BIMEPCandidate.h
+        BIMEPCandidate.cpp BIMEPCandidate.h
         BIMEPCandidates.cpp BIMEPCandidates.h
         main.cpp
 )

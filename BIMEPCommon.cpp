@@ -1,5 +1,6 @@
 #include "BIMEPCommon.h"
 #include "BIMEPCandidates.h"
+#include "BIMEPDefinition.h"
 
 #include <iostream>
 #include <iomanip>
@@ -14,9 +15,9 @@ std::ostream& operator<<(std::ostream& os, const Point& point)
     return os;
 }
 
-Point& getPoint(const PointID id)
+const Point& getPoint(const PointID id)
 {
-    return *std::find_if(points.begin(), points.end(),
+    return *std::find_if(BIMEPDefinition::points().begin(), BIMEPDefinition::points().end(),
                          [&](const Point& point) -> bool { return point.id == id; });
 }
 
@@ -66,7 +67,7 @@ size_t getLinkUniqueIdsCount(const std::vector<Link>& data)
 std::vector<Link> getLinks(const PointID point)
 {
     std::vector<Link> result;
-    for (const Link& link : links) {
+    for (const Link& link : BIMEPDefinition::links()) {
         if (link.from == point && !hasLinkTo(result, link.to)) {
             result.emplace_back(Link{ link.from, link.to, link.distance });
         }
@@ -86,7 +87,7 @@ void findCandidateRecursive(BIMEPCandidates& candidates, std::function<bool(cons
             assert(lastLink.to == link.from);
             BIMEPCandidate candidateBranch = candidate;
             candidateBranch.push_back(link);
-            if (getLinkUniqueIdsCount(candidateBranch) == points.size()) {
+            if (getLinkUniqueIdsCount(candidateBranch) == BIMEPDefinition::points().size()) {
                 candidateBranch.generateSignature();
                 if (filter(candidates, candidateBranch)) {
                     candidates.addCandidate(candidateBranch);
@@ -102,7 +103,7 @@ void findCandidateRecursive(BIMEPCandidates& candidates, std::function<bool(cons
 BIMEPCandidates findCandidates(std::function<bool(const BIMEPCandidates&, const BIMEPCandidate&)> filter)
 {
     BIMEPCandidates candidates;
-    for (const Point& point : points) {
+    for (const Point& point : BIMEPDefinition::points()) {
         std::vector<Link> links = getLinks(point.id);
         for (const Link& link : links) {
             BIMEPCandidate candidate;

@@ -1,4 +1,5 @@
 #include "BIMEPCandidate.h"
+#include "BIMEPDefinition.h"
 
 #include <algorithm>
 #include <numeric>
@@ -50,8 +51,8 @@ bool BIMEPCandidate::isEndingAt(const std::vector<PointID>& endingPoints) const
 
 std::string BIMEPCandidate::pointSignatureId(const PointID pointId)
 {
-    auto it = std::find_if(points.begin(), points.end(), [&](const Point& point) -> bool { return point.id == pointId; });
-    const std::string str = std::string("0") + std::to_string(it - points.begin() + 1);
+    auto it = std::find_if(BIMEPDefinition::points().begin(), BIMEPDefinition::points().end(), [&](const Point& point) -> bool { return point.id == pointId; });
+    const std::string str = std::string("0") + std::to_string(it - BIMEPDefinition::points().begin() + 1);
     return str.substr(str.length() - 2, 2);
 }
 

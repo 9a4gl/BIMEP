@@ -1,9 +1,12 @@
 #include "BIMEPCandidates.h"
+#include "BIMEPDefinition.h"
 
 #include <iostream>
 
 int main()
 {
+    BIMEPDefinition::create(2024);
+
     auto condition = [](const BIMEPCandidates& candidates, const BIMEPCandidate& candidate) -> bool {
         return candidate.isStartingFrom({ PointID::ID_PUSCINE }) &&
                candidate.isEndingAt({ PointID::ID_GORNJI_MIHALJEVEC, PointID::ID_MACINEC, PointID::ID_LOPATINEC, PointID::ID_CAKOVEC, PointID::ID_OREHOVICA });
