@@ -15,10 +15,11 @@ std::ostream& operator<<(std::ostream& os, const Point& point)
     return os;
 }
 
-const Point& getPoint(const PointID id)
+const Point getPoint(const PointID id)
 {
-    return *std::find_if(BIMEPDefinition::points().begin(), BIMEPDefinition::points().end(),
+    auto it = std::find_if(BIMEPDefinition::points().begin(), BIMEPDefinition::points().end(),
                          [&](const Point& point) -> bool { return point.id == id; });
+    return (it == BIMEPDefinition::points().end()) ? Point{id, std::to_string(int(id)), 1} : *it;
 }
 
 std::ostream& operator<<(std::ostream& os, const Link& link)

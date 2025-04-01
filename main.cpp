@@ -25,7 +25,7 @@ int main()
                                      PointID::ID_CAKOVEC, PointID::ID_SVETA_MARIJA, PointID::ID_DONJI_KRALJEVEC });
     };
 
-    BIMEPCandidates candidates = findCandidates(condition3);
+    BIMEPCandidates candidates = findCandidates();
 
     std::cout << "We have " << candidates.size() << " candidates." << std::endl;
     std::cout << candidates.first(10);
