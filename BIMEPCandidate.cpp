@@ -80,7 +80,7 @@ std::ostream& operator<<(std::ostream& os, const BIMEPCandidate& candidate)
     os << "Signature: [" << candidate.signature << "]" << std::endl;
     os << "Reverse Signature: [" << candidate.reversed().generateSignature().signature << "]" << std::endl;
     double totalDistance = 0.0;
-    for (int i = 0; i < candidate.size(); ++i) {
+    for (size_t i = 0; i < candidate.size(); ++i) {
         const Link& link = candidate.at(i);
         totalDistance += link.distance;
         os << std::setw(3) << (i + 1) << " " << link << " " << std::setw(6) << totalDistance << std::endl;

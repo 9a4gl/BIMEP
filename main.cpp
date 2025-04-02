@@ -18,14 +18,10 @@ int main()
     };
 
     auto condition3 = [](const BIMEPCandidates& candidates, const BIMEPCandidate& candidate) -> bool {
-        return candidate.isStartingFrom({ PointID::ID_LOPATINEC }) &&
-               candidate.isEndingAt({
-                                     PointID::ID_OREHOVICA, PointID::ID_PUSCINE, PointID::ID_GORNJI_MIHALJEVEC,
-                                     PointID::ID_MACINEC, PointID::ID_PRELOG, PointID::ID_MALA_SUBOTICA,
-                                     PointID::ID_CAKOVEC, PointID::ID_SVETA_MARIJA, PointID::ID_DONJI_KRALJEVEC });
+        return candidate.isStartingFrom({ PointID::ID_LOPATINEC });
     };
 
-    BIMEPCandidates candidates = findCandidates();
+    BIMEPCandidates candidates = findCandidates(/* condition3 */);
 
     std::cout << "We have " << candidates.size() << " candidates." << std::endl;
     std::cout << candidates.first(10);
