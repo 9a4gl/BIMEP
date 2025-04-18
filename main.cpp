@@ -5,7 +5,7 @@
 
 int main()
 {
-    BIMEPDefinition::create(2025);
+    BIMEPDefinition::create(2024);
 
     auto condition = [](const BIMEPCandidates& candidates, const BIMEPCandidate& candidate) -> bool {
         return candidate.isStartingFrom({ PointID::ID_PUSCINE }) &&
@@ -21,7 +21,7 @@ int main()
         return candidate.isStartingFrom({ PointID::ID_LOPATINEC });
     };
 
-    BIMEPCandidates candidates = findCandidates(/* condition3 */);
+    BIMEPCandidates candidates = findCandidates(condition3);
 
     std::cout << "We have " << candidates.size() << " candidates." << std::endl;
     std::cout << candidates.first(10);

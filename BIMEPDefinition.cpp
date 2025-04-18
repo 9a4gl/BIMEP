@@ -52,23 +52,23 @@ BIMEPDefinition::BIMEPDefinition()
     };
 
     m_links = {
-        // { PointID::ID_MALA_SUBOTICA, PointID::ID_OREHOVICA, 6.0 },
-        // { PointID::ID_MALA_SUBOTICA, PointID::ID_CAKOVEC, 8.4 },
-        // { PointID::ID_MALA_SUBOTICA, PointID::ID_DONJI_KRALJEVEC, 11.3 },
+        { PointID::ID_MALA_SUBOTICA, PointID::ID_OREHOVICA, 6.0 },
+        { PointID::ID_MALA_SUBOTICA, PointID::ID_CAKOVEC, 8.4 },
+        { PointID::ID_MALA_SUBOTICA, PointID::ID_DONJI_KRALJEVEC, 11.3 },
         { PointID::ID_DONJI_KRALJEVEC, PointID::ID_DOMASINEC, 11.0 },
-        // { PointID::ID_DONJI_KRALJEVEC, PointID::ID_GORICAN, 3.7 },
+        { PointID::ID_DONJI_KRALJEVEC, PointID::ID_GORICAN, 3.7 },
         { PointID::ID_DONJI_KRALJEVEC, PointID::ID_SVETA_MARIJA, 9 },
         { PointID::ID_DONJI_KRALJEVEC, PointID::ID_PRELOG, 5.0 },
         // { PointID::ID_GORICAN, PointID::ID_KOTORIBA, 14.4 },
         { PointID::ID_KOTORIBA, PointID::ID_DONJA_DUBRAVA, 6.0 },
-        // { PointID::ID_KOTORIBA, PointID::ID_DONJI_VIDOVEC, 4.1 },
-        // { PointID::ID_DONJA_DUBRAVA, PointID::ID_DONJI_VIDOVEC, 3.8 },
+        { PointID::ID_KOTORIBA, PointID::ID_DONJI_VIDOVEC, 4.1 },
+        { PointID::ID_DONJA_DUBRAVA, PointID::ID_DONJI_VIDOVEC, 3.8 },
         { PointID::ID_DONJA_DUBRAVA, PointID::ID_SVETA_MARIJA, 6.0 },
-        // { PointID::ID_DONJI_VIDOVEC, PointID::ID_SVETA_MARIJA, 4.3 },
+        { PointID::ID_DONJI_VIDOVEC, PointID::ID_SVETA_MARIJA, 4.3 },
         { PointID::ID_SVETA_MARIJA, PointID::ID_PRELOG, 11.0 },
         { PointID::ID_PRELOG, PointID::ID_OREHOVICA, 9.0 },
         { PointID::ID_PRELOG, PointID::ID_CAKOVEC, 17.0 },
-        // { PointID::ID_PRELOG, PointID::ID_MALA_SUBOTICA, 10.2 },
+        { PointID::ID_PRELOG, PointID::ID_MALA_SUBOTICA, 10.2 },
         { PointID::ID_OREHOVICA, PointID::ID_CAKOVEC, 11.0 },
         { PointID::ID_OREHOVICA, PointID::ID_PUSCINE, 15.7 },
         { PointID::ID_PUSCINE, PointID::ID_CAKOVEC, 9.5 },
@@ -86,9 +86,9 @@ BIMEPDefinition::BIMEPDefinition()
         { PointID::ID_PODTUREN, PointID::ID_DOMASINEC, 5.5 },
         { PointID::ID_PODTUREN, PointID::ID_CAKOVEC, 13.0 },
         { PointID::ID_DOMASINEC, PointID::ID_CAKOVEC, 15.0 },
-        // { PointID::ID_DOMASINEC, PointID::ID_MALA_SUBOTICA, 9.5 },
+        { PointID::ID_DOMASINEC, PointID::ID_MALA_SUBOTICA, 9.5 },
         { PointID::ID_CAKOVEC, PointID::ID_LOPATINEC, 8.0 },
-        // { PointID::ID_GORICAN, PointID::ID_SVETA_MARIJA, 11.7}
+        { PointID::ID_GORICAN, PointID::ID_SVETA_MARIJA, 11.7}
     };
 }
 
